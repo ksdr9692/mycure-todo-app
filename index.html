@@ -13,6 +13,15 @@
   	<meta 
   	name="viewport" 
   	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+  	<style>
+  		.todo-list {
+  			margin-top: 10px;
+  			border: 2px dashed black;
+  			border-radius: 4px;
+  			padding: 10px 15px;
+  		}
+  	</style>
 </head>
 <body>
 	<div id="root">
@@ -22,8 +31,8 @@
 		        <v-layout align-center justify-center>
 		          <v-flex xs12 sm8 md4>
 		            <v-card class="elevation-12">
-		              <v-toolbar dark color="primary">
-		                <v-toolbar-title>Login form</v-toolbar-title>
+		              <v-toolbar color="blue">
+		                <v-toolbar-title>Login</v-toolbar-title>
 		                <v-spacer></v-spacer> 
 		              		</v-toolbar>
 					              <v-card-text>
@@ -38,12 +47,14 @@
 						                  v-model="password" 
 						                  label="Password" 
 						                  id="password" 
-						                  type="password"></v-text-field>
+						                  type="password"
+						                  @keyup.enter="login"></v-text-field>
 						                </v-form>
 					              </v-card-text>
 		              		<v-card-actions>
+		                <v-btn color="green" @click="setToLoginOrRegister('register')">Signup Here</v-btn>
 		                <v-spacer></v-spacer>
-		                <v-btn color="info" @click="login">Login</v-btn>
+		                <v-btn color="blue"  @click="login">Login</v-btn>
 		              </v-card-actions>
 		            </v-card>
 		          </v-flex>
@@ -76,50 +87,64 @@
 			 					type="date" 
 								label="Deadline"
 			 					v-model.lazy="todo.deadline"
-			 					@keyup="updateTodo(index)">></v-text-field> <br>
-			 					<button 
-				 				@click="deleteTodo(index)">DELETE TASK</button>
+			 					@keyup="updateTodo(index)"
+			 					@input="updateTodo(index)">></v-text-field> <br>
+			 					<v-btn
+				 				@click="deleteTodo(index)"
+				 				color="red">DELETE TASK</v-btn>
 				 			</div>
 			 			</v-flex>
 					</v-layout>
-					<button
-		 			@click="addTodo">+ADD</button>
+					<v-btn
+		 			@click="addTodo"
+		 			color="orange">+ADD</v-btn>
 		 	</v-container>
 	 	</div>
 
-	 	<!-- <div v-if="screen == 'register'">
-	 		<v-form>
-				<v-text-field
-			      v-model="email"
-			      :error-messages="emailErrors"
-			      label="E-mail"
-			      required
-			      @input="$v.email.$touch()"
-			      @blur="$v.email.$touch()"></v-text-field>
-			    <v-text-field
-			      v-model="password"
-			      :append-icon="show1 ? 'visibility' : 'visibility_off'"
-			      :rules="[rules.required, rules.min]"
-			      :type="show1 ? 'text' : 'password'"
-			      name="input-10-1"
-			      label="Password"
-			      hint="At least 8 characters"
-			      counter
-			      @click:append="show1 = !show1"></v-text-field>
-			    <v-text-field
-			      v-model="password"
-			      :append-icon="show1 ? 'visibility' : 'visibility_off'"
-			      :rules="[rules.required, rules.min]"
-			      :type="show1 ? 'text' : 'password'"
-			      name="input-10-1"
-			      label="Confirm Password"
-			      hint="At least 8 characters"
-			      counter
-			      @click:append="show1 = !show1"></v-text-field>
-
-			    <v-btn @click="submit">Register</v-btn>
-			</v-form>
-	 	</div>	 -->
+	 	<div v-if="screen == 'register'">
+	 		<v-content>
+		      <v-container fluid fill-height>
+		        <v-layout align-center justify-center>
+		          <v-flex xs12 sm8 md4>
+		            <v-card class="elevation-12">
+		              <v-toolbar color="green">
+		                <v-toolbar-title>Registration</v-toolbar-title>
+		                <v-spacer></v-spacer> 
+		              		</v-toolbar>
+					              <v-card-text>
+						                <v-form>
+						                  <v-text-field 
+						                  prepend-icon="person" 
+						                  v-model="email" 
+						                  label="Email" 
+						                  type="email"></v-text-field>
+						                  <v-text-field 
+						                  prepend-icon="lock" 
+						                  v-model="password" 
+						                  label="Password" 
+						                  id="password" 
+						                  type="password"></v-text-field>
+						                  <v-text-field 
+						                  prepend-icon="lock" 
+						                  v-model="confirmPassword" 
+						                  label="Confirm Password" 
+						                  id="password" 
+						                  type="password"
+						                  @keyup.enter="signup"></v-text-field>
+						                </v-form>
+					              </v-card-text>
+		              		<v-card-actions>
+		                <v-btn color="blue" @click="setToLoginOrRegister('login')">Go to Login</v-btn>
+		                <v-spacer></v-spacer>
+		                <v-btn color="green" @click="signup">Register</v-btn>
+		              </v-card-actions>
+		            </v-card>
+		          </v-flex>
+		        </v-layout>
+		      </v-container>
+		   </v-content>
+		</div>
+	 	</div>	
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
@@ -128,6 +153,6 @@
 	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-database.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   	<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
-	<script src="main.js"></script>
 </body>
+	<script src="main.js"></script>
 </html>

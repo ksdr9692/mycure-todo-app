@@ -18,6 +18,7 @@ app = new Vue({
 	data: {
 		uid: '',
 		email: '',
+		confirmPassword: '',
 		password: '',
         loginOrRegister: 'login',
 		todos: [],
@@ -49,17 +50,46 @@ app = new Vue({
     			this.todosRef = null
     		}
     	},
+
+    	screen: function (newVal, oldVal) {
+    		this.email = ''
+    		this.password = ''
+    		this.confirmPassword = ''
+    	},
     },
 
 	methods: {
 			setToLoginOrRegister(val) {
           		this.loginOrRegister = val
         	},
+        	signup(){
+        		if(this.confirmPassword == this.password){
+        			firebase.auth().createUserWithEmailAndPassword(this.email, this.password).catch(function(error) { 
+        				var errorCode = error.code; 
+        				var errorMessage = error.message; 
+        				if (errorCode == 'auth/weak-password') { 
+        					alert('The password is too weak.'); 
+	        			} else { 
+	        				alert(errorMessage); 
+        				}
+
+        				console.log(error); 
+        			});
+        			this.login()
+        		} else{
+        			alert("Password and Confirm password doesn't match!")
+        		}
+        	},
         	login(){
         		firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         			.then((user) => {
         				this.uid = user.user.uid
-	        		})
+	        		}).catch(function(error) { 
+        				var errorCode = error.code; 
+        				var errorMessage = error.message; 
+        				alert(error.message)
+        				console.log(error); 
+        			})
         	},
 			addTodo(){
 				let pushRef = this.todosRef.push()
@@ -69,7 +99,7 @@ app = new Vue({
 					deadline: ""})
 			},
 			deleteTodo(index){
-				this.todosRef.child(key).remove()
+				this.todosRef.child(index).remove()
 
 			},
 			
