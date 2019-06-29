@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue.JS</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<link 
+	href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" 
+	rel="stylesheet">
+  	<link 
+  	href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" 
+  	rel="stylesheet">
+  	<meta 
+  	name="viewport" 
+  	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+	<div id="root">
+		<div v-if="screen == 'login'">
+			<v-content>
+		      <v-container fluid fill-height>
+		        <v-layout align-center justify-center>
+		          <v-flex xs12 sm8 md4>
+		            <v-card class="elevation-12">
+		              <v-toolbar dark color="primary">
+		                <v-toolbar-title>Login form</v-toolbar-title>
+		                <v-spacer></v-spacer> 
+		              		</v-toolbar>
+					              <v-card-text>
+						                <v-form>
+						                  <v-text-field 
+						                  prepend-icon="person" 
+						                  v-model="email" 
+						                  label="Email" 
+						                  type="email"></v-text-field>
+						                  <v-text-field 
+						                  prepend-icon="lock" 
+						                  v-model="password" 
+						                  label="Password" 
+						                  id="password" 
+						                  type="password"></v-text-field>
+						                </v-form>
+					              </v-card-text>
+		              		<v-card-actions>
+		                <v-spacer></v-spacer>
+		                <v-btn color="info" @click="login">Login</v-btn>
+		              </v-card-actions>
+		            </v-card>
+		          </v-flex>
+		        </v-layout>
+		      </v-container>
+		   </v-content>
+		</div>
+
+		<div v-if="screen == 'dashboard'">
+			<v-container grid-list-xl text-xs-center>
+				<h1>MYCURE TODO LIST</h1>	
+		 			<br><br>
+		 			<v-layout row 
+		 			justify-center>
+						<v-flex  md4>
+				 			<div 
+				 			class="todo-list" 
+					 		v-for="todo, index in todos">
+			 					<v-text-field 
+			 					v-model.lazy="todo.name"
+			 					label="Activity Name"
+			 					@keyup="updateTodo(index)"></v-text-field>
+			 					<br>
+			 					<v-text-field
+			 					type="text" 
+								label="Description"
+			 					v-model.lazy="todo.description"
+			 					@keyup="updateTodo(index)">></v-text-field> <br>
+			 					<v-text-field 
+			 					type="date" 
+								label="Deadline"
+			 					v-model.lazy="todo.deadline"
+			 					@keyup="updateTodo(index)">></v-text-field> <br>
+			 					<button 
+				 				@click="deleteTodo(index)">DELETE TASK</button>
+				 			</div>
+			 			</v-flex>
+					</v-layout>
+					<button
+		 			@click="addTodo">+ADD</button>
+		 	</v-container>
+	 	</div>
+
+	 	<!-- <div v-if="screen == 'register'">
+	 		<v-form>
+				<v-text-field
+			      v-model="email"
+			      :error-messages="emailErrors"
+			      label="E-mail"
+			      required
+			      @input="$v.email.$touch()"
+			      @blur="$v.email.$touch()"></v-text-field>
+			    <v-text-field
+			      v-model="password"
+			      :append-icon="show1 ? 'visibility' : 'visibility_off'"
+			      :rules="[rules.required, rules.min]"
+			      :type="show1 ? 'text' : 'password'"
+			      name="input-10-1"
+			      label="Password"
+			      hint="At least 8 characters"
+			      counter
+			      @click:append="show1 = !show1"></v-text-field>
+			    <v-text-field
+			      v-model="password"
+			      :append-icon="show1 ? 'visibility' : 'visibility_off'"
+			      :rules="[rules.required, rules.min]"
+			      :type="show1 ? 'text' : 'password'"
+			      name="input-10-1"
+			      label="Confirm Password"
+			      hint="At least 8 characters"
+			      counter
+			      @click:append="show1 = !show1"></v-text-field>
+
+			    <v-btn @click="submit">Register</v-btn>
+			</v-form>
+	 	</div>	 -->
+	</div>
+	<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-database.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  	<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+	<script src="main.js"></script>
+</body>
+</html>

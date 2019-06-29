@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<link 
+	href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" 
+	rel="stylesheet">
+  	<link 
+  	href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" 
+  	rel="stylesheet">
+  	<meta 
+  	name="viewport" 
+  	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+<form>
+	<v-text-field
+      v-model="email"
+      :error-messages="emailErrors"
+      label="E-mail"
+      required
+      @input="$v.email.$touch()"
+      @blur="$v.email.$touch()"
+    ></v-text-field>
+    <v-text-field
+      v-model="password"
+      :append-icon="show1 ? 'visibility' : 'visibility_off'"
+      :rules="[rules.required, rules.min]"
+      :type="show1 ? 'text' : 'password'"
+      name="input-10-1"
+      label="Normal with hint text"
+      hint="At least 8 characters"
+      counter
+      @click:append="show1 = !show1"></v-text-field>
+
+    <v-btn @click="submit">Submit</v-btn>
+</form>
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-database.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script src="main.js"></script>	
+</body>
+</html>
