@@ -21,6 +21,9 @@
   			border-radius: 4px;
   			padding: 10px 15px;
   		}
+  		#root {
+  			visibility: hidden;
+  		}
   	</style>
 </head>
 <body>
@@ -64,6 +67,9 @@
 		</div>
 
 		<div v-if="screen == 'dashboard'">
+			<div style="float: right">
+				<v-btn color="grey" @click="logout">LOGOUT</v-btn> 
+			</div>
 			<v-container grid-list-xl text-xs-center>
 				<h1>MYCURE TODO LIST</h1>	
 		 			<br><br>

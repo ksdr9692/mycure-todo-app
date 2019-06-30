@@ -58,6 +58,10 @@ app = new Vue({
     	},
     },
 
+    mounted() {
+    	document.getElementById('root').style.visibility = 'visible'
+    },
+
 	methods: {
 			setToLoginOrRegister(val) {
           		this.loginOrRegister = val
@@ -79,6 +83,10 @@ app = new Vue({
         		} else{
         			alert("Password and Confirm password doesn't match!")
         		}
+        	},
+        	logout(){
+        		this.uid = ""
+        		this.setToLoginOrRegister("login")
         	},
         	login(){
         		firebase.auth().signInWithEmailAndPassword(this.email, this.password)
